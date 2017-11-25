@@ -42,7 +42,6 @@ public class WebCrawler {
 					proceedings.add(ProceedingUtils.createProceeding(editors.trim(), str.trim()));
 				} else {
 					editors = str;
-					System.out.println(proceedings);
 				}
 				i++;
 			}
