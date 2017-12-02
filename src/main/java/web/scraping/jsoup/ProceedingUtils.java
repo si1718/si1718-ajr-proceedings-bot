@@ -25,13 +25,13 @@ public class ProceedingUtils {
 		
 		for(int j=0; j<splitted_data.size(); j++) {
 			String data_j = splitted_data.get(j).trim();
-			if(j==0 || (j==1 && !data_j.matches("\\d+"))) {
+			if(j==0 || (j==1 && !data_j.matches("\\d+") && !data_j.matches("ISBN(.*?)"))) {
 				if(j==0) {
 					proceeding.setTitle(data_j);
 				} else {
 					proceeding.setTitle(proceeding.getTitle() + ". " + data_j);
 				}
-			} else if(j==1 || (j==2 && data_j.matches("\\d{4}"))) {
+			} else if((j==1 || j==2) && data_j.matches("\\d{4}")) {
 				proceeding.setYear(new Integer(data_j));
 			} else {
 				if(data_j.matches("ISBN(.*?)")) {			

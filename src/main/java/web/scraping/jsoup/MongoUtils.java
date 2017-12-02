@@ -21,28 +21,37 @@ public class MongoUtils {
 	private static final String MONGO_DB = "mongodb://andjimrio:andjimrio@ds257245.mlab.com:57245/si1718-ajr-proceedings";
 	private static final String MONGO_CL = "proceedings";
 	
+	public static MongoDatabase database= null; 
 	
-	public static void populateDB(List<Proceeding> proceedings) {
-
+	public static void initialize() {
 		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 		
 		MongoClientURI uri = new MongoClientURI(MONGO_DB);
 		@SuppressWarnings("resource")
 		MongoClient mongoClient = new MongoClient(uri);
-		MongoDatabase database = mongoClient.getDatabase(uri.getDatabase()).withCodecRegistry(pojoCodecRegistry);
+		database = mongoClient.getDatabase(uri.getDatabase()).withCodecRegistry(pojoCodecRegistry);
+	}
+	
+	public static void populateDB(List<Proceeding> proceedings, Boolean print) {
 		MongoCollection<Proceeding> collection = database.getCollection(MONGO_CL, Proceeding.class);
-				
-		collection.insertMany(proceedings);
 		
-		Block<Proceeding> printBlock = new Block<Proceeding>() {
-		    @Override
-		    public void apply(final Proceeding proceeding) {
-		        System.out.println(proceeding);
-		    }
-		};
-
-		collection.find().forEach(printBlock);
+		try {
+			collection.insertMany(proceedings);
+		} catch(Exception e) {
+			System.out.println("\t"+e.getMessage());
+		}
+		
+		if(print) {
+			Block<Proceeding> printBlock = new Block<Proceeding>() {
+			    @Override
+			    public void apply(final Proceeding proceeding) {
+			        System.out.println(proceeding);
+			    }
+			};
+	
+			collection.find().forEach(printBlock);
+		}
 		
 	}
 }
