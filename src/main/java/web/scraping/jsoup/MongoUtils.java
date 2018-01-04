@@ -8,7 +8,7 @@ import java.util.List;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
-import com.mongodb.Block;
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -33,25 +33,26 @@ public class MongoUtils {
 		database = mongoClient.getDatabase(uri.getDatabase()).withCodecRegistry(pojoCodecRegistry);
 	}
 	
-	public static void populateDB(List<Proceeding> proceedings, Boolean print) {
+	public static void updateDB(List<Proceeding> proceedings) {
 		MongoCollection<Proceeding> collection = database.getCollection(MONGO_CL, Proceeding.class);
 		
-		try {
-			collection.insertMany(proceedings);
-		} catch(Exception e) {
-			System.out.println("\t"+e.getMessage());
+		for(Proceeding proceeding: proceedings) {
+			BasicDBObject query = new BasicDBObject("idProceeding", proceeding.getIdProceeding());
+			
+			try {
+				if(collection.find(query).first() == null) {
+					try {
+						System.out.println("\tSe crea en DB - "+proceeding.getIdProceeding());
+						collection.insertOne(proceeding);
+					} catch(Exception e) {
+						System.out.println("\t"+e.getMessage());
+					}
+				} else {
+					System.out.println("\tYa está en DB - "+proceeding.getIdProceeding());					
+				}
+			} catch (Exception e) {
+				System.out.println("#ERROR: "+e.getMessage());
+			}
 		}
-		
-		if(print) {
-			Block<Proceeding> printBlock = new Block<Proceeding>() {
-			    @Override
-			    public void apply(final Proceeding proceeding) {
-			        System.out.println(proceeding);
-			    }
-			};
-	
-			collection.find().forEach(printBlock);
-		}
-		
 	}
 }

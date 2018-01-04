@@ -13,7 +13,7 @@ public class ProceedingUtils {
 		
 		for(int i=0; i<splitted_editors.size(); i++) {
 			if(i==0) {
-				proceeding.setEditor(splitted_editors.get(i).trim());
+				proceeding.updateEditor(splitted_editors.get(i).trim());
 			} else{
 				proceeding.addCoeditor(splitted_editors.get(i).trim());
 			}

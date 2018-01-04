@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Proceeding {
-	private String editor, title, isbn, publisher, city, country, idProceeding;
+	private Editor editor;
+	private String title, isbn, publisher, city, country, idProceeding;
 	private Integer year;
 	private List<String> coeditors;
 	
@@ -12,12 +13,18 @@ public class Proceeding {
 		this.coeditors = new ArrayList<String>();
 	}
 
-	public String getEditor() {
+	public Editor getEditor() {
 		return editor;
 	}
 
-	public void setEditor(String editor) {
+	public void setEditor(Editor editor) {
 		this.editor = editor;
+	}
+
+	public void updateEditor(String editor) {
+		Editor aux = new Editor();
+		aux.setName(editor);
+		this.editor = aux;
 	}
 
 	public List<String> getCoeditors() {
@@ -94,7 +101,7 @@ public class Proceeding {
 			if(this.isbn == null || this.isbn.isEmpty()) {
 				if (this.title != null && this.editor != null && this.year != null)
 				this.idProceeding = getCleanedString(title).substring(0,5) + 
-			            getCleanedString(editor).substring(0,5) + year;
+			            getCleanedString(editor.getName()).substring(0,5) + year;
 			} else {
 				this.idProceeding = this.isbn;
 			}
