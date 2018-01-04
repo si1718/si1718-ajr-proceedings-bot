@@ -1,1 +1,1 @@
-batcher: sh target/bin/batcher
+crawler: sh target/bin/crawler
