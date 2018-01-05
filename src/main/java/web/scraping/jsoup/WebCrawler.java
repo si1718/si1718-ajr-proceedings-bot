@@ -20,7 +20,7 @@ public class WebCrawler {
 	private final static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 	private static final String URL_BASE = "https://investigacion.us.es/sisius/sis_showpub.php?idpers=";
-	private static final String TEXT_INI = "Otra participación en Libros de Actas";
+	private static final String TEXT_INI = "Otra participaciï¿½n en Libros de Actas";
 	private static final String TEXT_FIN = "Aportaciones a Congresos";
 	
 	private static final Integer FINAL = 5620;
@@ -85,7 +85,7 @@ public class WebCrawler {
 				}
 			}
 		};
-		scheduler.scheduleAtFixedRate(scrapping, 0, 1, TimeUnit.HOURS);		
+		scheduler.scheduleAtFixedRate(scrapping, 0, 1, TimeUnit.DAYS);		
 	}
 
 	public static void main(String... args) {
