@@ -48,7 +48,7 @@ public class MongoUtils {
 						System.out.println("\t"+e.getMessage());
 					}
 				} else {
-					System.out.println("\tYa est· en DB - "+proceeding.getIdProceeding());					
+					System.out.println("\tYa est√° en DB - "+proceeding.getIdProceeding());					
 				}
 			} catch (Exception e) {
 				System.out.println("#ERROR: "+e.getMessage());
